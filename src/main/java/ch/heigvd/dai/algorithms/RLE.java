@@ -1,6 +1,6 @@
 package ch.heigvd.dai.algorithms;
 
-class RLE extends LosslessAlgorithm {
+public class RLE extends LosslessAlgorithm {
   @Override
   void compress(String archive, String output) {
   };
