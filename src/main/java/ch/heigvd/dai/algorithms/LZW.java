@@ -1,11 +1,11 @@
 package ch.heigvd.dai.algorithms;
 
-class LZW extends LosslessAlgorithm {
+public class LZW extends LosslessAlgorithm {
   @Override
-  void compress(String archive, String output) {
-  };
+  public void compress(String input, String output) {
+  }
 
   @Override
-  void extract(String archive, String output) {
+  public void extract(String input, String output) {
   };
 }

@@ -6,7 +6,7 @@ public abstract class LosslessAlgorithm {
     RLE
   };
 
-  abstract void compress(String archive, String output);
+  abstract public void compress(String archive, String output);
 
-  abstract void extract(String archive, String output);
+  abstract public void extract(String archive, String output);
 }

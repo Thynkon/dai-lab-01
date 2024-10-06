@@ -1,11 +1,11 @@
 package ch.heigvd.dai.algorithms;
 
-class RLE extends LosslessAlgorithm {
+public class RLE extends LosslessAlgorithm {
   @Override
-  void compress(String archive, String output) {
+  public void compress(String archive, String output) {
   };
 
   @Override
-  void extract(String archive, String output) {
+  public void extract(String archive, String output) {
   };
 }
