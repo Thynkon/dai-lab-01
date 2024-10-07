@@ -1,0 +1,27 @@
+# To use the services, you need to specify the directories where the input and output should be
+# examples:
+#
+# compress the file stored at ./tmp/file.txt to ./tmp/output.rle using RLE
+# env INPUT_DIR="./tmp" OUTPUT_DIR="./tmp" INPUT="file.txt" OUTPUT="output.rle" ALGO="RLE" docker compose up compress
+#
+# extract the file stored at ./tmp/file.lzw to ./tmp/file.extracted using LZW
+# env INPUT_DIR="./tmp" OUTPUT_DIR="./tmp" INPUT="file.lzw" OUTPUT="file.extracted"  docker compose up extract
+services:
+  compress:
+    profiles: ["compress"]
+    image: dai-lab-01:latest
+    build: .
+    pull_policy: never
+    volumes:
+      - "${INPUT_DIR:-./input}:/data/input:ro"
+      - "${OUTPUT_DIR:-./output}:/data/output"
+    command: "-c -a ${ALGO:-LZW} -o /data/output/${OUTPUT} /data/input/${INPUT}"
+  extract:
+    profiles: ["extract"]
+    image: dai-lab-01:latest
+    build: .
+    pull_policy: never
+    volumes:
+      - "${INPUT_DIR:-./input}:/data/input:ro"
+      - "${OUTPUT_DIR:-./output}:/data/output"
+    command: "-x -a ${ALGO:-LZW} -o /data/output/${OUTPUT} /data/input/${INPUT}"
