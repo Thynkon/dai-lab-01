@@ -3,9 +3,14 @@ FROM eclipse-temurin:21-jdk AS builder
 
 WORKDIR /app
 
-COPY . .
+# Download build dependencies
+COPY mvnw pom.xml dependency-reduced-pom.xml ./
+COPY .mvn ./.mvn
+RUN chmod +x ./mvnw && ./mvnw install
 
-RUN chmod +x ./mvnw && ./mvnw package
+# Copy project and build
+COPY src ./src
+RUN ./mvnw package
 
 FROM eclipse-temurin:21-jre AS prod
 
