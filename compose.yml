@@ -11,7 +11,6 @@ services:
     profiles: ["compress"]
     image: dai-lab-01:latest
     build: .
-    pull_policy: never
     volumes:
       - "${INPUT_DIR:-./input}:/data/input:ro"
       - "${OUTPUT_DIR:-./output}:/data/output"
@@ -20,7 +19,6 @@ services:
     profiles: ["extract"]
     image: dai-lab-01:latest
     build: .
-    pull_policy: never
     volumes:
       - "${INPUT_DIR:-./input}:/data/input:ro"
       - "${OUTPUT_DIR:-./output}:/data/output"
