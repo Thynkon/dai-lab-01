@@ -3,15 +3,11 @@ package ch.heigvd.dai.commands;
 import java.io.File;
 import java.util.concurrent.Callable;
 
-import ch.heigvd.dai.algorithms.LosslessAlgorithm;
-import ch.heigvd.dai.algorithms.LZW;
+import ch.heigvd.dai.algorithms.*;
 import picocli.CommandLine;
 
 @CommandLine.Command(description = "A small CLI that compresses and deflates files.", version = "1.0.0", scope = CommandLine.ScopeType.INHERIT, mixinStandardHelpOptions = true)
 public class Root implements Callable<Integer> {
-  public enum AlgorithmTypes {
-    LWZ
-  };
 
   @CommandLine.Option(names = { "-c", "--create" }, description = "create a new archive")
   private boolean create;
@@ -32,9 +28,14 @@ public class Root implements Callable<Integer> {
 
   public Integer call() {
     // TODO: Use factory in the future
-    LosslessAlgorithm compression_algorithm = new LZW();
+    LosslessAlgorithm compression_algorithm = switch (algorithm) {
+      case LZW -> new LZW();
+      case RLE -> new RLE();
+    };
+
     if (create && extract) {
-      // TODO: throw exception
+      // TODO: throw specific exception
+      throw new RuntimeException("Cannot use compress and extract flags at the same time.");
     }
 
     if (create) {
@@ -44,8 +45,8 @@ public class Root implements Callable<Integer> {
     }
 
     if (extract) {
-      // TODO: for now, only the first file is archived is tmp!
-      // In the future, only .tar files will be passed to compress()
+      // TODO: for now, only the first file is extracted is tmp!
+      // In the future, only .tar files will be passed to extract()
       compression_algorithm.extract(files[0].getAbsolutePath(), output);
     }
 
