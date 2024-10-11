@@ -20,11 +20,6 @@ public class RLE extends LosslessAlgorithm {
 
       while ((cur = rBuf.read()) != -1) {
 
-        if (Character.isDigit(cur)) {
-          // TODO: support numeric values by including an escape character?
-          throw new RLEException("RLE encoding cannot compress files with containing numeric values");
-        }
-
         // Check for repetitions
         if (cur == expected) {
           ++counter;
@@ -32,17 +27,15 @@ public class RLE extends LosslessAlgorithm {
         }
 
         // Write to the output with "nc" where n is the number of occurences and c the
-        // repeated character
-        wBuf.append(String.valueOf(counter));
-        wBuf.append((char) expected);
+        // repeated character. (just write the char if it's not repeated)
+        compressWrite(wBuf, expected, counter);
         expected = cur;
         counter = 1;
       }
 
       // Since we are using a while loop, we do need to write after exiting the loop
       if (expected != -1) {
-        wBuf.append(String.valueOf(counter));
-        wBuf.append((char) expected);
+        compressWrite(wBuf, expected, counter);
       }
 
       wBuf.flush();
@@ -50,6 +43,39 @@ public class RLE extends LosslessAlgorithm {
       System.err.println("Exception: " + err);
     }
   };
+
+  /**
+   * write a sequence of characters in RLE format. The formats are:
+   * <ul>
+   * <li>
+   * &lt;repeat&gt;&lt;character&gt; when the character appears more than once in
+   * a row
+   * </li>
+   * <li>
+   * &lt;character&gt; when there is no repetition
+   * </li>
+   * <li>
+   * &lt;repeat?&gt;\&lt;character&gt; when the character is a number or the
+   * escaping
+   * character
+   * </li>
+   * </ul>
+   *
+   * @param writer    the BufferedWriter to write to
+   * @param character the character to write
+   * @param repeat    the number of time the character is repeated
+   * @throws IOException when there is an error with the writer
+   */
+  private void compressWrite(BufferedWriter writer, int character, int repeat) throws IOException {
+    if (repeat > 1) {
+      writer.write(String.valueOf(repeat));
+    }
+    if (Character.isDigit(character) || character == '\\') {
+      // Escape numbers
+      writer.write('\\');
+    }
+    writer.write(character);
+  }
 
   @Override
   public void extract(String archive, String output) {
@@ -62,17 +88,25 @@ public class RLE extends LosslessAlgorithm {
       // rBuf` which would directly parse an int
       StringBuilder counter = new StringBuilder();
       int cur;
+      boolean escaped = false;
 
       while ((cur = rBuf.read()) != -1) {
-        if (Character.isDigit((char) cur)) {
+        if (!escaped && Character.isDigit((char) cur)) {
           counter.append((char) cur);
           continue;
         }
 
-        // Check that the sequence is valid (a character should have a number of
-        // occurences specified)
+        if (!escaped && cur == '\\') {
+          escaped = true;
+          continue;
+        }
+
+        escaped = false;
+
+        // If the counter is empty, that means the char isn't repeated.
         if (counter.isEmpty()) {
-          throw new RLEException("The input file isn't encoded with RLE or is corrupted");
+          wBuf.write(cur);
+          continue;
         }
 
         // Write the character n times
