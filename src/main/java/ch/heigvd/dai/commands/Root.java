@@ -1,9 +1,6 @@
 package ch.heigvd.dai.commands;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.concurrent.Callable;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
@@ -34,8 +31,16 @@ public class Root implements Callable<Integer> {
   private File output;
 
   public Integer call() {
-    // TODO: Use factory in the future
     LosslessAlgorithm compression_algorithm = LosslessAlgorithmFactory.make(algorithm);
+    File tmpFile = null;
+    try {
+      tmpFile = File.createTempFile(output.hashCode() + output.getName(), "tmp");
+
+    } catch (IOException e) {
+      // TODO: cleaner exception
+      System.err.println("exception while creating temporary file: " + e);
+      return 1;
+    }
 
     if (create && extract) {
       // TODO: throw specific exception
@@ -48,7 +53,7 @@ public class Root implements Callable<Integer> {
       // compression_algorithm.compress(files[0].getAbsolutePath(), output);
 
       try (
-          OutputStream fos = new FileOutputStream(output);
+          OutputStream fos = new FileOutputStream(tmpFile);
           TarArchiveOutputStream tar_stream = new TarArchiveOutputStream(fos);) {
 
         for (File file : this.files) {
@@ -57,9 +62,13 @@ public class Root implements Callable<Integer> {
 
         // write final tar file
         tar_stream.finish();
+
+        compression_algorithm.compress(tmpFile, output);
       } catch (IOException e) {
         // TODO: handle exception
+        System.err.println("exception while trying to create archive: " + e);
       }
+
     }
 
     if (extract) {
@@ -70,11 +79,15 @@ public class Root implements Callable<Integer> {
       // In the future, only .tar files will be passed to extract()
       // compression_algorithm.extract(files[0].getAbsolutePath(), output);
       try {
-        TarWrapper.extract(this.files[0], this.output);
+        compression_algorithm.extract(this.files[0], tmpFile);
+        TarWrapper.extract(tmpFile, output);
       } catch (IOException e) {
         e.printStackTrace();
       }
     }
+
+    // cleanup
+    tmpFile.delete();
 
     return 0;
   }
