@@ -22,7 +22,7 @@ public class RLE extends LosslessAlgorithm {
 
         if (Character.isDigit(cur)) {
           // TODO: support numeric values by including an escape character?
-          throw new RLEException("RLE encoding cannot compress files with containing numeric values");
+          throw new RLEException("RLE encoding cannot compress files containing numeric values");
         }
 
         // Check for repetitions
@@ -32,8 +32,10 @@ public class RLE extends LosslessAlgorithm {
         }
 
         // Write to the output with "nc" where n is the number of occurences and c the
-        // repeated character
-        wBuf.append(String.valueOf(counter));
+        // repeated character. (just write the char if it's not repeated)
+        if (counter > 1) {
+          wBuf.append(String.valueOf(counter));
+        }
         wBuf.append((char) expected);
         expected = cur;
         counter = 1;
@@ -41,7 +43,9 @@ public class RLE extends LosslessAlgorithm {
 
       // Since we are using a while loop, we do need to write after exiting the loop
       if (expected != -1) {
-        wBuf.append(String.valueOf(counter));
+        if (counter > 1) {
+          wBuf.append(String.valueOf(counter));
+        }
         wBuf.append((char) expected);
       }
 
@@ -69,10 +73,10 @@ public class RLE extends LosslessAlgorithm {
           continue;
         }
 
-        // Check that the sequence is valid (a character should have a number of
-        // occurences specified)
+        // If the counter is empty, that means the char isn't repeated.
         if (counter.isEmpty()) {
-          throw new RLEException("The input file isn't encoded with RLE or is corrupted");
+          wBuf.write(cur);
+          continue;
         }
 
         // Write the character n times
