@@ -28,29 +28,14 @@ public class RLE extends LosslessAlgorithm {
 
         // Write to the output with "nc" where n is the number of occurences and c the
         // repeated character. (just write the char if it's not repeated)
-        if (counter > 1) {
-          wBuf.append(String.valueOf(counter));
-        }
-
-        if (Character.isDigit(expected) || expected == '\\') {
-          // Escape numbers
-          wBuf.write('\\');
-        }
-        wBuf.write(expected);
+        compressWrite(wBuf, expected, counter);
         expected = cur;
         counter = 1;
       }
 
       // Since we are using a while loop, we do need to write after exiting the loop
       if (expected != -1) {
-        if (counter > 1) {
-          wBuf.append(String.valueOf(counter));
-        }
-        if (Character.isDigit(expected)) {
-          // Escape numbers
-          wBuf.write('\\');
-        }
-        wBuf.write(expected);
+        compressWrite(wBuf, expected, counter);
       }
 
       wBuf.flush();
@@ -58,6 +43,39 @@ public class RLE extends LosslessAlgorithm {
       System.err.println("Exception: " + err);
     }
   };
+
+  /**
+   * write a sequence of characters in RLE format. The formats are:
+   * <ul>
+   * <li>
+   * &lt;repeat&gt;&lt;character&gt; when the character appears more than once in
+   * a row
+   * </li>
+   * <li>
+   * &lt;character&gt; when there is no repetition
+   * </li>
+   * <li>
+   * &lt;repeat?&gt;\&lt;character&gt; when the character is a number or the
+   * escaping
+   * character
+   * </li>
+   * </ul>
+   *
+   * @param writer    the BufferedWriter to write to
+   * @param character the character to write
+   * @param repeat    the number of time the character is repeated
+   * @throws IOException when there is an error with the writer
+   */
+  private void compressWrite(BufferedWriter writer, int character, int repeat) throws IOException {
+    if (repeat > 1) {
+      writer.write(String.valueOf(repeat));
+    }
+    if (Character.isDigit(character) || character == '\\') {
+      // Escape numbers
+      writer.write('\\');
+    }
+    writer.write(character);
+  }
 
   @Override
   public void extract(String archive, String output) {
