@@ -20,11 +20,6 @@ public class RLE extends LosslessAlgorithm {
 
       while ((cur = rBuf.read()) != -1) {
 
-        if (Character.isDigit(cur)) {
-          // TODO: support numeric values by including an escape character?
-          throw new RLEException("RLE encoding cannot compress files containing numeric values");
-        }
-
         // Check for repetitions
         if (cur == expected) {
           ++counter;
@@ -36,7 +31,12 @@ public class RLE extends LosslessAlgorithm {
         if (counter > 1) {
           wBuf.append(String.valueOf(counter));
         }
-        wBuf.append((char) expected);
+
+        if (Character.isDigit(expected) || expected == '\\') {
+          // Escape numbers
+          wBuf.write('\\');
+        }
+        wBuf.write(expected);
         expected = cur;
         counter = 1;
       }
@@ -46,7 +46,11 @@ public class RLE extends LosslessAlgorithm {
         if (counter > 1) {
           wBuf.append(String.valueOf(counter));
         }
-        wBuf.append((char) expected);
+        if (Character.isDigit(expected)) {
+          // Escape numbers
+          wBuf.write('\\');
+        }
+        wBuf.write(expected);
       }
 
       wBuf.flush();
@@ -66,12 +70,20 @@ public class RLE extends LosslessAlgorithm {
       // rBuf` which would directly parse an int
       StringBuilder counter = new StringBuilder();
       int cur;
+      boolean escaped = false;
 
       while ((cur = rBuf.read()) != -1) {
-        if (Character.isDigit((char) cur)) {
+        if (!escaped && Character.isDigit((char) cur)) {
           counter.append((char) cur);
           continue;
         }
+
+        if (!escaped && cur == '\\') {
+          escaped = true;
+          continue;
+        }
+
+        escaped = false;
 
         // If the counter is empty, that means the char isn't repeated.
         if (counter.isEmpty()) {
