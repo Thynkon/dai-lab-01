@@ -1,6 +1,9 @@
 package ch.heigvd.dai.commands;
 
 import java.io.*;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
@@ -64,6 +67,12 @@ public class Root implements Callable<Integer> {
         tar_stream.finish();
 
         compression_algorithm.compress(tmpFile, output);
+
+        double resultSize = (double) output.length() / (double) tmpFile.length() * 100.;
+
+        System.out.println("Compressed to "
+            + new DecimalFormat("#.##", DecimalFormatSymbols.getInstance(Locale.ENGLISH)).format(resultSize)
+            + "% of original size");
       } catch (IOException e) {
         // TODO: handle exception
         System.err.println("exception while trying to create archive: " + e);
