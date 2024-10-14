@@ -12,9 +12,12 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#development">Development</a></li>
+        <li><a href="#docker">Docker</a></li>
       </ul>
     </li>
     <li><a href="#license">License</a></li>
+    <li><a href="#contacts">Contacts</a></li>
   </ol>
 </details>
 
@@ -64,7 +67,7 @@ compress it using different algorithms.
   winget install EclipseAdoptium.Temurin.21.JDK
   ```
 
-##### Development
+#### Development
 
 Use the maven wrapper to install dependencies, build and package the project.
 
@@ -74,7 +77,18 @@ Use the maven wrapper to install dependencies, build and package the project.
 # build
 ./mvnw package
 # run
-java -jar target/dai-lab01-1.0.jar <args>
+java -jar target/dai-lab01-1.0.jar --help
+```
+
+#### Docker
+
+The application can be used with docker.
+
+```sh
+# Build
+docker build -t compression-tool:latest .
+# Example run to compress input_a.txt and input_b.txt into output.tar.rle
+docker run --rm -v ".:/data" compress-tool:latest -c -a RLE -o /data/output.tar.rle /data/input_a.txt /data/input_b.txt
 ```
 
 <!-- CONTRIBUTING -->
@@ -101,7 +115,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 
-## Contact
+## Contacts
 
 - [Thynkon](https://github.com/Thynkon)
 - [Mondotosz](https://github.com/Mondotosz)
