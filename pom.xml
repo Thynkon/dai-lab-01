@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ch.heigvd.dai</groupId>
-  <artifactId>java-intellij-idea-and-maven</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>dai-lab01</artifactId>
+  <version>1.0</version>
 
   <distributionManagement>
     <repository>
@@ -26,13 +26,19 @@
       <artifactId>picocli</artifactId>
       <version>4.7.6</version>
     </dependency>
-    </dependencies>
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-compress</artifactId>
+      <version>1.27.1</version>
+    </dependency>
+  </dependencies>
 
   <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <build>
     <plugins>

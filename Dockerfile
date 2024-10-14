@@ -16,7 +16,7 @@ FROM eclipse-temurin:21-jre AS prod
 
 WORKDIR /app
 
-COPY --from=builder /app/target/java-intellij-idea-and-maven-1.0-SNAPSHOT.jar /app/app.jar
+COPY --from=builder /app/target/dai-lab01-1.0.jar /app/app.jar
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
