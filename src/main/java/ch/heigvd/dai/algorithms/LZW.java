@@ -1,15 +1,6 @@
 package ch.heigvd.dai.algorithms;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +44,7 @@ public class LZW extends LosslessAlgorithm {
   }
 
   @Override
-  public void compress(String input, String output) {
+  public void compress(File input, File output) {
     this.initialize_dictionary(Mode.COMPRESSION);
     // w is the next char
     // each time, we peek the next char to check if it already is in the dictionnary
@@ -92,7 +83,7 @@ public class LZW extends LosslessAlgorithm {
   }
 
   @Override
-  public void extract(String input, String output) {
+  public void extract(File input, File output) {
     this.initialize_dictionary(Mode.EXTRACTION);
 
     try (

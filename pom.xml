@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ch.heigvd.dai</groupId>
-  <artifactId>dai-pw-01</artifactId>
+  <artifactId>dai-lab-01</artifactId>
   <version>1.0</version>
 
   <distributionManagement>
@@ -26,13 +26,13 @@
       <artifactId>picocli</artifactId>
       <version>4.7.6</version>
     </dependency>
-</dependencies>
+  <dependencies>
 
   <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <build>
     <plugins>
