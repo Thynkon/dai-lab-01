@@ -43,3 +43,6 @@ Thumbs.db
 .classpath
 .settings
 .project
+
+# Used by act to locally test github actions
+.secrets

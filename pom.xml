@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ch.heigvd.dai</groupId>
-  <artifactId>dai-lab01</artifactId>
+  <artifactId>dai-lab-01</artifactId>
   <version>1.0</version>
 
   <distributionManagement>
