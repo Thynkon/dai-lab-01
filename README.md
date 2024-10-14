@@ -77,7 +77,7 @@ Use the maven wrapper to install dependencies, build and package the project.
 # build
 ./mvnw package
 # run
-java -jar target/dai-lab01-1.0.jar --help
+java -jar target/dai-lab-01-1.0.jar --help
 ```
 
 #### Docker
@@ -89,6 +89,22 @@ The application can be used with docker.
 docker build -t compression-tool:latest .
 # Example run to compress input_a.txt and input_b.txt into output.tar.rle
 docker run --rm -v ".:/data" compress-tool:latest -c -a RLE -o /data/output.tar.rle /data/input_a.txt /data/input_b.txt
+```
+
+#### Github actions
+If you want to test the ``Github actions`` on your machine, you can use [act](https://github.com/nektos/act).
+
+Before you launch any workflow, make sure you have created a repository secret named ``AUTH_TOKEN``.
+
+Then, create a file named ``.secrets`` which should contain the following:
+```env
+AUTH_TOKEN=<YOUR_AUTH_TOKEN>
+```
+
+Finally, launch the publish workflow (which publishes the mvn package to Github repository) with the following command:
+
+```sh
+act --secret-file .secrets
 ```
 
 <!-- CONTRIBUTING -->
