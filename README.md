@@ -91,12 +91,23 @@ docker build -t compression-tool:latest .
 docker run --rm -v ".:/data" compress-tool:latest -c -a RLE -o /data/output.tar.rle /data/input_a.txt /data/input_b.txt
 ```
 
+Or you can use docker compose
+
+```sh
+# Compress ./input.txt to ./output.tar.lzw
+env ALGO="LZW" INPUT_DIR="./" OUTPUT_DIR="./" INPUT="input.txt" OUTPUT="output.tar.lzw" docker compose up --build compress
+# Extract ./input.tar.lzw to ./output/
+env ALGO="LZW" INPUT_DIR="./" OUTPUT_DIR="./" INPUT="input.txt" OUTPUT="output" docker compose up --build extract
+```
+
 #### Github actions
-If you want to test the ``Github actions`` on your machine, you can use [act](https://github.com/nektos/act).
 
-Before you launch any workflow, make sure you have created a repository secret named ``AUTH_TOKEN``.
+If you want to test the `Github actions` on your machine, you can use [act](https://github.com/nektos/act).
 
-Then, create a file named ``.secrets`` which should contain the following:
+Before you launch any workflow, make sure you have created a repository secret named `AUTH_TOKEN`.
+
+Then, create a file named `.secrets` which should contain the following:
+
 ```env
 AUTH_TOKEN=<YOUR_AUTH_TOKEN>
 ```
