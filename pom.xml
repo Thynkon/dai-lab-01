@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ch.heigvd.dai</groupId>
-  <artifactId>java-intellij-idea-and-maven</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>dai-pw-01</artifactId>
+  <version>1.0</version>
 
   <distributionManagement>
     <repository>
@@ -26,7 +26,12 @@
       <artifactId>picocli</artifactId>
       <version>4.7.6</version>
     </dependency>
-    </dependencies>
+    <dependency>
+    <groupId>com.medium</groupId>
+    <artifactId>medium-auth-commons</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </dependency>
+</dependencies>
 
   <properties>
         <maven.compiler.source>21</maven.compiler.source>
