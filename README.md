@@ -14,6 +14,7 @@
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#development">Development</a></li>
         <li><a href="#docker">Docker</a></li>
+        <li><a href="#examples">Examples</a></li>
       </ul>
     </li>
     <li><a href="#license">License</a></li>
