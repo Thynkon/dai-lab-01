@@ -14,6 +14,7 @@
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#development">Development</a></li>
         <li><a href="#docker">Docker</a></li>
+        <li><a href="#examples">Examples</a></li>
       </ul>
     </li>
     <li><a href="#license">License</a></li>
@@ -98,6 +99,16 @@ Or you can use docker compose
 env ALGO="LZW" INPUT_DIR="./" OUTPUT_DIR="./" INPUT="input.txt" OUTPUT="output.tar.lzw" docker compose up --build compress
 # Extract ./input.tar.lzw to ./output/
 env ALGO="LZW" INPUT_DIR="./" OUTPUT_DIR="./" INPUT="input.txt" OUTPUT="output" docker compose up --build extract
+```
+
+#### Examples
+
+```sh
+# Compress multiple files using LZW algorithm
+java -jar target/dai-lab-01-1.0.jar -c -a LZW -o myfile.tar.lzw README.md pom.xml
+
+# Extract compressed files using LZW to a specific directory
+java -jar target/dai-lab-01-1.0.jar -x -a LZW -o mydir myfile.tar.lzw
 ```
 
 #### Github actions
