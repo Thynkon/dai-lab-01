@@ -25,36 +25,93 @@ A compression tool written in modern JAVA
 
 ---
 
-# Project overview
+# Project management
 
 ---
 
 # Features
 
----
+<div class="flex items-center justify-between">
+  <div>
+    <ul>
+      <li>Compression / Extraction</li>
+      <li>tar files</li>
+      <li>LZW</li>
+      <li>RLE</li>
+      <li>Docker</li>
+      <li>Automatic builds using Github Actions</li>
+    </ul>
+  </div>
+  <div class="flex flex-col space-y-10">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"  alt="drawing" width="100"/>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Docker_%28container_engine%29_logo.svg"  alt="drawing" width="300"/>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Apache_Maven_logo.svg"  alt="drawing" width="300"/>
+  </div>
+</div>
 
----
-layout: two-cols-header
+
 ---
 
 # Compression algorithms
 
-::left::
-
-# Left
-
-This shows on the left
-
-::right::
-
-# Right
-
-This shows on the right
+<div class="flex items-center justify-between">
+  <div class="text-lg">
+    RLE
+  </div>
+  <div class="basis-1/2">
+    <span class="text-lg">
+      LZW
+    </span>
+    <ul>
+      <li>Memory-intensive algorithm</li>
+      <li>Dictionnaries are built during runtime</li>
+    </ul>
+    <img src="https://www.eecs.yorku.ca/course_archive/2019-20/F/2030/labs/lab4/fig1c.png"  alt="drawing" width="300"/>
+  </div>
+</div>
 
 ---
 
-# Docker and actions
+# Docker and Github Actions
+
+<div class="flex items-center justify-between">
+  <div class="text-lg">
+    Docker
+  </div>
+  <div class="basis-1/2">
+    <span class="text-lg">
+      Github actions
+    </span>
+```yaml
+name: Publish package to GitHub Packages
+on:
+  release:
+    types: [created]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+      - name: Publish package
+        run: ./mvnw deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
+```
+  </div>
+</div>
 
 ---
 
 # What could be improved
+
+- Handle binary files
+- Unit tests
+- CI/CD pipeline 
+- Implement commands to modify archive file - update or delete tar entries
