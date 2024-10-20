@@ -100,6 +100,16 @@ env ALGO="LZW" INPUT_DIR="./" OUTPUT_DIR="./" INPUT="input.txt" OUTPUT="output.t
 env ALGO="LZW" INPUT_DIR="./" OUTPUT_DIR="./" INPUT="input.txt" OUTPUT="output" docker compose up --build extract
 ```
 
+#### Examples
+
+```sh
+# Compress multiple files using LZW algorithm
+java -jar target/dai-lab-01-1.0.jar -c -a LZW -o myfile.tar.lzw README.md pom.xml
+
+# Extract compressed files using LZW to a specific directory
+java -jar target/dai-lab-01-1.0.jar -x -a LZW -o mydir myfile.tar.lzw
+```
+
 #### Github actions
 
 If you want to test the `Github actions` on your machine, you can use [act](https://github.com/nektos/act).
