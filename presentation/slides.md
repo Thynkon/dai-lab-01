@@ -53,8 +53,8 @@ A compression tool written in modern JAVA
 
 # Compression algorithms
 
-<div class="flex items-center justify-between">
-  <div class="basis-1/2">
+<div class="flex items-stretch justify-between">
+  <div class="basis-1/2 h-full">
     <span class="text-lg">
       RLE
     </span>
@@ -82,11 +82,36 @@ A compression tool written in modern JAVA
 
 # Docker and Github Actions
 
-<div class="flex items-center justify-between">
-  <div class="text-lg">
-    Docker
+<div class="flex items-stretch justify-between gap-4">
+  <div>
+    <span class="text-lg">
+      Docker
+    </span>
+```dockerfile
+FROM eclipse-temurin:21-jdk AS builder
+WORKDIR /app
+# Download build dependencies
+COPY mvnw pom.xml dependency-reduced-pom.xml ./
+COPY .mvn ./.mvn
+RUN chmod +x ./mvnw && ./mvnw install
+# Copy project and build
+COPY src ./src
+RUN ./mvnw package
+FROM eclipse-temurin:21-jre AS prod
+WORKDIR /app
+COPY --from=builder /app/target/dai-lab-01-1.0.jar /app/app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["--help"]
+```
+
+```bash
+docker build -t compress-tool .
+docker run --rm -v ".:/data" compress-tool:latest \
+  -c -a RLE -o /data/output.tar.rle /data/input
+```
+
   </div>
-  <div class="basis-1/2">
+  <div>
     <span class="text-lg">
       Github actions
     </span>
