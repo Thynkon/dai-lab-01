@@ -176,3 +176,4 @@ jobs:
 - CI/CD pipeline
 - Implement commands to modify archive file - update or delete tar entries
 - Dev branch
+- Publication on the maven repository
