@@ -49,14 +49,22 @@ A compression tool written in modern JAVA
   </div>
 </div>
 
-
 ---
 
 # Compression algorithms
 
 <div class="flex items-center justify-between">
-  <div class="text-lg">
-    RLE
+  <div class="basis-1/2">
+    <span class="text-lg">
+      RLE
+    </span>
+    <ul>
+      <li>Low memory usage</li>
+      <li>Fast and simple</li>
+      <img src="/assets/RLE-v1.svg" alt="RLE drawing" width="300"/>
+      <li>Derivative implementation</li>
+      <img src="/assets/RLE-v2.svg" alt="RLE drawing" width="300"/>
+    </ul>
   </div>
   <div class="basis-1/2">
     <span class="text-lg">
@@ -113,5 +121,5 @@ jobs:
 
 - Handle binary files
 - Unit tests
-- CI/CD pipeline 
+- CI/CD pipeline
 - Implement commands to modify archive file - update or delete tar entries
