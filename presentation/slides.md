@@ -27,6 +27,33 @@ A compression tool written in modern JAVA
 
 # Project management
 
+<div class="flex items-center justify-between">
+  <div>
+    <ul>
+      <li>
+        GitHub Projects
+        <ul>
+          <li>Issues</li>
+          <li>Pull request</li>
+          <li>Review</li>
+        </ul>
+      </li>
+      <li>
+        Git flow
+        <ul>
+          <li>master</li>
+          <li>features</li>
+          <li>fix/hotfix</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="flex flex-col gap-10 basis-1/2">
+    <img src="/assets/github-project.png"  alt="project" width="full"/>
+    <img src="/assets/graph.png"  alt="branches" width="full"/>
+  </div>
+</div>
+
 ---
 
 # Features
@@ -148,3 +175,4 @@ jobs:
 - Unit tests
 - CI/CD pipeline
 - Implement commands to modify archive file - update or delete tar entries
+- Dev branch
