@@ -172,8 +172,6 @@ jobs:
 # What could be improved
 
 - Handle binary files
-- Unit tests
 - CI/CD pipeline
 - Implement commands to modify archive file - update or delete tar entries
-- Dev branch
 - Publication on the maven repository
